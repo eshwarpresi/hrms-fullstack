@@ -15,20 +15,23 @@ const Employees = () => {
     position: ''
   });
 
-  useEffect(() => {
-    fetchEmployees();
-  }, []);
-
+  // Fetch employees function
   const fetchEmployees = async () => {
     try {
+      setLoading(true);
       const response = await employeeAPI.getAll();
       setEmployees(response.data.data);
     } catch (error) {
+      console.error('Error fetching employees:', error);
       alert('Error fetching employees: ' + (error.response?.data?.message || error.message));
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,11 +43,17 @@ const Employees = () => {
         await employeeAPI.create(formData);
         alert('Employee created successfully!');
       }
+      
+      // Refresh the employee list after successful operation
+      await fetchEmployees();
+      
+      // Reset form and close modal
       setShowForm(false);
       setEditingEmployee(null);
       setFormData({ first_name: '', last_name: '', email: '', phone: '', position: '' });
-      fetchEmployees();
+      
     } catch (error) {
+      console.error('Error saving employee:', error);
       alert('Error saving employee: ' + (error.response?.data?.message || error.message));
     }
   };
@@ -66,8 +75,12 @@ const Employees = () => {
       try {
         await employeeAPI.delete(id);
         alert('Employee deleted successfully!');
-        fetchEmployees();
+        
+        // Refresh the employee list after deletion
+        await fetchEmployees();
+        
       } catch (error) {
+        console.error('Error deleting employee:', error);
         alert('Error deleting employee: ' + (error.response?.data?.message || error.message));
       }
     }
