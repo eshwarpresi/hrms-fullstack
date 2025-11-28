@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Use environment variable for API URL, fallback to deployed backend URL
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://hrms-fullstack-gd0z.onrender.com/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://hrms-fullstack-1-lar5.onrender.com/api';
 
 console.log('API Base URL:', API_BASE_URL);
 
