@@ -3,8 +3,20 @@ const cors = require('cors');
 const app = express();
 const PORT = 10000;
 
+// CORS configuration for PRODUCTION
+const corsOptions = {
+  origin: [
+    'http://localhost:3000',
+    'https://hrms-fullstack.vercel.app',
+    'https://hrms-fullstack-ten.vercel.app',
+    'https://hrms-fullstack-*.vercel.app'
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions)); // Use corsOptions
 app.use(express.json());
 
 // Log requests
@@ -13,7 +25,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Health check
+// Rest of your code remains the same...
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'API WORKING', timestamp: new Date().toISOString() });
 });
@@ -172,5 +184,5 @@ app.listen(PORT, () => {
   console.log('🚀 BACKEND RUNNING on port', PORT);
   console.log('✅ ALL APIS WORKING - NO SAMPLE DATA');
   console.log('📝 Employees start EMPTY');
-  console.log('🔗 http://localhost:10000/api/health');
+  console.log('🔗 https://hrms-fullstack-1-lar5.onrender.com/api/health');
 });
